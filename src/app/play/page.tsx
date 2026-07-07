@@ -1929,28 +1929,22 @@ function PlayPageClient() {
     artwork: videoCover ? [{ src: videoCover, sizes: '512x512' }] : [],
     onPlay: () => artPlayerRef.current?.play(),
     onPause: () => artPlayerRef.current?.pause(),
-    onSeekBackward: () => {
+    onSeekBackward: (seekOffset?: number) => {
       if (artPlayerRef.current)
-        artPlayerRef.current.currentTime = Math.max(0, artPlayerRef.current.currentTime - 10);
+        artPlayerRef.current.currentTime = Math.max(0, artPlayerRef.current.currentTime - (seekOffset ?? 10));
     },
-    onSeekForward: () => {
+    onSeekForward: (seekOffset?: number) => {
       if (artPlayerRef.current)
         artPlayerRef.current.currentTime = Math.min(
           artPlayerRef.current.duration,
-          artPlayerRef.current.currentTime + 10,
+          artPlayerRef.current.currentTime + (seekOffset ?? 10),
         );
     },
     onPreviousTrack: () => {
-      const episodes = detail?.episodes;
-      if (episodes && currentEpisodeIndex > 0) {
-        setCurrentEpisodeIndex(currentEpisodeIndex - 1);
-      }
+      handlePreviousEpisode();
     },
     onNextTrack: () => {
-      const episodes = detail?.episodes;
-      if (episodes && currentEpisodeIndex < episodes.length - 1) {
-        setCurrentEpisodeIndex(currentEpisodeIndex + 1);
-      }
+      handleNextEpisode();
     },
   });
 

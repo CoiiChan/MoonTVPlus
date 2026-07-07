@@ -762,17 +762,17 @@ function TVPlayClient() {
     onPause: () => {
       if (isPlaying) setToggleCommand((c) => c + 1);
     },
-    onSeekBackward: () => {
+    onSeekBackward: (seekOffset?: number) => {
       const video = document.querySelector<HTMLVideoElement>(
         '[data-tv-player-root] video',
       );
-      if (video) video.currentTime = Math.max(0, video.currentTime - 10);
+      if (video) video.currentTime = Math.max(0, video.currentTime - (seekOffset ?? 10));
     },
-    onSeekForward: () => {
+    onSeekForward: (seekOffset?: number) => {
       const video = document.querySelector<HTMLVideoElement>(
         '[data-tv-player-root] video',
       );
-      if (video) video.currentTime = Math.min(video.duration, video.currentTime + 10);
+      if (video) video.currentTime = Math.min(video.duration, video.currentTime + (seekOffset ?? 10));
     },
     onPreviousTrack: () => {
       if (detail?.episodes) switchEpisode(episodeIndex - 1);
